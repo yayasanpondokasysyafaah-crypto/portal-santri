@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Portal Santri</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="login-body">
+    
+<div class="login-container">
+
+        <!-- LOGO -->
+    <div class="logo-container">
+        <img src="logo_pndok_2-removebg-preview.png" alt="Logo Pesantren">
+    </div>
+
+<h2>Login Portal Santri</h2>
+
+
+<input id="username" placeholder="NIS">
+
+<div class="password-box">
+<input id="password" type="password" placeholder="Password">
+<button onclick="togglePassword()">👁️</button>
+</div>
+
+<p class="buat-akun" onclick="buatAkun()">
+Belum punya akun? <span>Buat Akun</span>
+</p>
+
+
+<button onclick="login()" class="login-btn">Login</button>
+
+</div>
+
+<script type="module" src="js/login.js"></script>
+
+<script>
+function togglePassword(){
+const input = document.getElementById("password")
+input.type = input.type === "password" ? "text" : "password"
+}
+</script>
+
+</body>
+</html>
