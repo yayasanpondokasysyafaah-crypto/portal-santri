@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="navbar">
+<header class="topbar">
+  <h1>Dashboard Pondok</h1>
+  <div class="top-actions">
+    <button onclick="toggleDarkMode()">🌙</button>
+    <br><br>
+  </div>
+</header>
+<button onclick="downloadExcel()" class="btn-excel">
+📥 Download Data Santri
+</button>
+<button onclick="backupDatabase()" class="btn-backup">
+💾 Backup Database
+</button>
+
+<button onclick="logout()">Logout</button>
+
+</div>
+
+
+<div class="container">
+
+
+<!-- STATISTIK -->
+
+<h2>Statistik Pondok</h2>
+
+<div class="stats">
+
+<div class="card">
+<div class="icon">👤</div>
+<h3>Total Santri</h3>
+<p id="totalSantri">0</p>
+</div>
+
+<div class="card" onclick="LihatAbsensi()">
+<div class="icon">📋</div>
+<h3>Absensi</h3>
+<p id="absensi">0</p>
+</div>
+
+<div class="card" onclick="LihatSudahBayar()"> 
+<div class="icon">💰</div>
+<h3>Pembayaran Bulan Ini</h3>
+<p id="totalPembayaran">0</p>
+</div>
+
+
+<div class="card" onclick="LihatBelumBayar()">
+<div class="icon">⚠️</div>
+<h3>Santri Belum Bayar</h3>
+<p id="belumBayar">0</p>
+</div>
+
+<div class="card">
+  <div class="icon">💵</div>
+<h3>Total Pemasukan</h3>
+<p id="totalUang">0</p>
+</div>
+
+</div>
+
+</div>
+
+<div id="popupSantri" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+
+<div style="background:white; padding:20px; border-radius:10px; width:350px; max-height:400px; overflow:auto;">
+
+<h3 id="judulPopup">Daftar Santri</h3>
+
+<div id="isiPopup"></div>
+
+<br>
+<button onclick="tutupPopup()">Tutup</button>
+
+</div>
+
+</div>
+
+
+<h2>Tambah Santri</h2>
+
+<input id="nama" placeholder="Nama Santri">
+<input id="nis" placeholder="NIS">
+<input id="password" placeholder="Password">
+<input id="kelas" placeholder="Kelas">
+<input id="wali" placeholder="Nama Wali">
+<input id="nomorwali" placeholder="Nomor Wali">
+<input id="alamat" placeholder="Alamat">
+<br><br>
+<button onclick="tambahSantri()">Tambah Santri</button>
+
+
+
+<h2>Absensi Santri</h2>
+
+<label>Filter Kelas</label>
+<select id="filterKelas" onchange="loadAbsensi()">
+<option value="">Semua Kelas</option>
+<option value="1">Kelas 1</option>
+<option value="2">Kelas 2</option>
+<option value="3">Kelas 3</option>
+<option value="4">Kelas 4</option>
+<option value="5">Kelas 5</option>
+<option value="6">Kelas 6</option>
+</select>
+
+<label>Tanggal</label>
+<input type="date" id="tanggalAbsensi">
+
+<br><br>
+
+<label>Kegiatan</label>
+<select id="kegiatanAbsensi">
+
+<option value="Diniyah">Diniyah</option>
+<option value="Ngaji Siang">Ngaji Siang</option>
+<option value="Ngaji Sore">Ngaji Sore</option>
+<option value="Madrasah">Madrasah</option>
+
+</select>
+
+<br><br>
+
+<div id="listAbsensi"></div>
+
+<br>
+
+<button onclick="simpanSemuaAbsensi()">Simpan Semua Absensi</button>
+
+<h2>Pembayaran Santri</h2>
+
+<select id="pembayaranSantri"></select>
+<br><br>
+
+<input type="month" id="bulanPembayaran">
+<br><br>
+
+<label>
+<input type="checkbox" id="syahriyahCheck">
+Syahriyah (30.000)
+</label>
+<br>
+
+<label>
+<input type="checkbox" id="madinCheck">
+Madin (30.000)
+</label>
+<br><br>
+
+<label>Kos Makan</label>
+<br><br>
+<select id="kosMakan">
+<option value="0">Tidak Ambil</option>
+<option value="150000">1x sehari (150.000)</option>
+<option value="300000">2x sehari (300.000)</option>
+</select>
+<br><br>
+
+<input id="urunan" placeholder="Urunan (opsional)">
+<br><br>
+
+<select id="statusPembayaran">
+<option value="Belum Bayar">Belum Bayar</option>
+<option value="Nyicil">Nyicil</option>
+<option value="Lunas">Lunas</option>
+</select>
+
+<br><br>
+
+<h3>Total Pembayaran</h3>
+<p id="totalBayar">Rp 0</p>
+
+<button onclick="simpanPembayaran()">Simpan Pembayaran</button>
+
+<h2>Buat Pengumuman</h2>
+
+<input id="judulPengumuman" placeholder="Judul pengumuman">
+
+<br><br>
+
+<textarea id="isiPengumuman" placeholder="Isi pengumuman"></textarea>
+
+<br><br>
+
+
+<button onclick="simpanPengumuman()">
+Kirim Pengumuman
+</button>
+
+
+<h2>Daftar Pengumuman</h2>
+<div id="listPengumuman"></div>
+
+<h2>Data Santri</h2>
+
+<input type="text" id="searchSantri" placeholder="Cari santri..." oninput="loadSantri()">
+
+<br><br>
+
+<table border="1" width="100%" cellpadding="8">
+  <thead>
+    <tr>
+      <th>Nama</th>
+      <th>NIS</th>
+      <th>Kelas</th>
+      <th>Nama Wali</th>
+      <th>Nomor Wali</th>
+      <th>Alamat</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody id="dataSantri"></tbody>
+</table>
+
+
+<div id="editModal" class="modal">
+
+<div class="modal-content">
+
+  <h3>Edit Santri</h3>
+
+<input type="text" id="editNama" placeholder="Nama">
+<input type="text" id="editKelas" placeholder="Kelas">
+<input type="text" id="editNis" placeholder="NIS">
+<input type="text" id="editWali" placeholder="Nama Wali">
+<input type="text" id="editNomorWali" placeholder="Nomor Wali">
+<input type="text" id="editAlamat" placeholder="Alamat">
+
+
+<br><br>
+
+<button onclick="updateSantri()">Simpan</button>
+<button onclick="tutupEdit()">Batal</button>
+
+
+
+</div>
+</div>
+
+<h2>Grafik Kehadiran</h2>
+
+<canvas id="grafikAbsensi"></canvas>
+
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module" src="js/dashboard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+</body>
+</html>

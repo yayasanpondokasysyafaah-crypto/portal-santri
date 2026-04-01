@@ -1,0 +1,439 @@
+/* LOGIN PAGE */
+
+.login-body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#c4d2e9,#6366f1);
+font-family:'Segoe UI',sans-serif;
+}
+
+.login-container{
+background:white;
+padding:30px;
+border-radius:20px;
+width:100%;
+max-width:320px;
+text-align:center;
+box-shadow:0 10px 30px rgba(20, 0, 0, 0.2);
+animation:fadeIn 0.4s ease;
+}
+
+.logo-container img {
+    width: 80px;
+    height: auto;
+}
+
+.login-container h2{
+margin-bottom:20px;
+color:#1e293b;
+}
+
+/* INPUT */
+.login-container input{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:10px;
+border:1px solid #ddd;
+font-size:14px;
+}
+
+/* PASSWORD BOX */
+.password-box{
+position:relative;
+}
+
+.password-box button{
+position:absolute;
+right:8px;
+top:50%;
+transform:translateY(-50%);
+background:none;
+border:none;
+cursor:pointer;
+font-size:16px;
+}
+
+/* BUTTON */
+.login-btn{
+width:100%;
+margin-top:15px;
+padding:12px;
+border:none;
+border-radius:10px;
+background:linear-gradient(135deg,#3b82f6,#6366f1);
+color:white;
+font-weight:bold;
+cursor:pointer;
+transition:0.2s;
+}
+
+.login-btn:hover{
+opacity:0.9;
+transform:scale(1.02);
+}
+
+/* ANIMASI */
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+
+/*  BUAT AKUN */
+
+.buat-akun{
+font-size:13px;
+color:#64748b;
+margin-top:5px;
+cursor:pointer;
+}
+
+.buat-akun span{
+color:#3b82f6;
+font-weight:600;
+}
+
+.buat-akun:hover span{
+text-decoration:underline;
+}
+
+/* RESET & BASE */
+
+
+
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+border: #10b981;
+font-family: 'Segoe UI', sans-serif;
+background:#f1f5f9;
+color:#1e293b;
+padding:20px;
+
+}
+
+/* JUDUL */
+h1,h2{
+font-weight:600;
+margin-bottom:10px;
+}
+
+/* TOPBAR */
+.topbar{
+display:flex;
+flex-direction: column;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#3b82f6,#6366f1);
+color:white;
+padding:15px 20px;
+border-radius:16px;
+margin-bottom:20px;
+width:100%;
+max-width:full;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+.topbar h1{
+font-size:20px;
+}
+
+.top-actions button{
+background:white;
+color:#3b82f6;
+border:none;
+padding:8px 12px;
+border-radius:10px;
+cursor:pointer;
+font-weight:600;
+}
+
+/* CONTAINER */
+.container{
+width:100%;
+max-width:fullpx;
+}
+
+/* STATS */
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:16px;
+margin-top:20px;
+
+}
+
+/* CARD */
+.card{
+background:white;
+padding:18px;
+border-radius:16px;
+box-shadow:0 6px 20px rgba(0,0,0,0.05);
+text-align:center;
+transition:all 0.2s ease;
+cursor:pointer;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.card h3{
+font-size:14px;
+color:#64748b;
+margin-bottom:5px;
+}
+
+.card p{
+font-size:26px;
+font-weight:700;
+color:#3b82f6;
+}
+
+/* ICON */
+.icon{
+font-size:26px;
+margin-bottom:5px;
+}
+
+/* INPUT */
+input, select, textarea{
+width:100%;
+padding:10px;
+margin:6px 0;
+border-radius:10px;
+border:1px solid #e2e8f0;
+background:white;
+transition:0.2s;
+}
+
+input:focus, select:focus, textarea:focus{
+outline:none;
+border-color:#3b82f6;
+box-shadow:0 0 0 2px rgba(59,130,246,0.2);
+}
+
+/* BUTTON */
+button{
+padding:10px 20px;
+border:none;
+border-radius:10px;
+background:linear-gradient(135deg,#3b82f6,#6366f1);
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:0.2s;
+}
+
+button:hover{
+transform:scale(1.03);
+opacity:0.9;
+}
+
+/* TABLE */
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+th, td{
+padding:10px;
+text-align:left;
+}
+
+th{
+background:#f1f5f9;
+font-size:13px;
+color:#64748b;
+}
+
+tr:nth-child(even){
+background:#f9fafb;
+}
+
+/* POPUP */
+#popupSantri{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+justify-content:center;
+align-items:center;
+}
+
+#popupSantri > div{
+background:white;
+padding:20px;
+border-radius:14px;
+width:90%;
+max-width:350px;
+max-height:400px;
+overflow:auto;
+}
+
+/* MODAL */
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.modal-content{
+background:white;
+padding:20px;
+border-radius:16px;
+width:90%;
+max-width:350px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+animation:fadeIn 0.25s ease;
+}
+
+/* BOTTOM NAV */
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:white;
+display:flex;
+justify-content:space-around;
+border-top:1px solid #e2e8f0;
+padding:8px 0;
+}
+
+.bottom-nav button{
+background:none;
+color:#64748b;
+}
+
+.bottom-nav button:hover{
+color:#3b82f6;
+}
+
+.bottom-nav span{
+font-size:11px;
+margin-top:3px;
+}
+
+/* BUTTON KHUSUS */
+.btn-excel{
+background:#6366f1;
+}
+
+.btn-backup{
+background:#6366f1;
+}
+
+/* DARK MODE */
+.dark{
+background:#0f172a;
+color:white;
+}
+
+.dark .card{
+background:#1e293b;
+}
+
+.dark table{
+background:#1e293b;
+}
+
+.dark th{
+background:#334155;
+}
+
+.dark .topbar{
+background:linear-gradient(135deg,#0f172a,#1e293b);
+}
+
+/* ANIMASI */
+@keyframes fadeIn{
+from{transform:scale(0.9); opacity:0;}
+to{transform:scale(1); opacity:1;}
+}
+
+/* MOBILE */
+@media(max-width:600px){
+
+body{
+padding:10px;
+}
+
+.card p{
+font-size:22px;
+}
+
+}
+
+/* HIDE NAV DESKTOP */
+@media(min-width:768px){
+.bottom-nav{
+display:none;
+}
+}
+
+@media(max-width:768px){
+
+.stats{
+grid-template-columns:1fr;
+}
+
+.card{
+text-align:left;
+}
+
+.topbar{
+padding:10px;
+}
+
+input, select, textarea{
+font-size:14px;
+}
+
+button{
+width:100%;
+margin-top:5px;
+}
+
+}
+
+table {
+  border-collapse: collapse;
+  background: white;
+}
+
+th {
+  background: #2c3e50;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background: #f2f2f2;
+}
+
+td, th {
+  text-align: left;
+}
