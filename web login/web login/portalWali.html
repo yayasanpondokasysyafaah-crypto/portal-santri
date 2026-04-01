@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Portal Wali</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style santri.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- HEADER -->
+<header class="header">
+
+  <div class="header-top">
+    <div class="user">
+      <div class="avatar">👤</div>
+      <div>
+        <h2 id="namaSantriHeader">Memuat...</h2>
+        <p class="header-sub">Portal Wali Santri</p>
+      </div>
+    </div>
+
+    <button onclick="logout()" class="logout-btn">
+      ⎋ <span>Logout</span>
+    </button>
+  </div>
+
+</header>
+
+<!-- NAV ATAS -->
+<nav class="top-nav">
+  <button onclick="openTab('beranda', this)" class="nav-btn active">Home</button>
+  <button onclick="openTab('bayar', this)" class="nav-btn">Pembayaran</button>
+  <button onclick="openTab('absen', this)" class="nav-btn">Absensi</button>
+  <button onclick="openTab('info', this)" class="nav-btn">Info</button>
+</nav>
+
+<!-- CONTENT -->
+<div class="content">
+
+<!-- BERANDA -->
+<div id="tab-beranda" class="tab active">
+    
+  <!-- KARTU UTAMA -->
+  <div class="saldo-card">
+    <p>Total Tagihan</p>
+    <h1 id="tagihanTotal">Rp 0</h1>
+    <span id="statusTagihan">Memuat...</span>
+  </div>
+
+  <!-- DETAIL -->
+  <div class="card">
+    <h3>Rincian Tagihan</h3>
+    <p>Syahriyah: <span id="tagihanSyahriyah">Rp 0</span></p>
+    <p>Madin: <span id="tagihanMadin">Rp 0</span></p>
+    <p>Kos: <span id="tagihanKos">Rp 0</span></p>
+    <p>Urunan: <span id="tagihanUrunan">Rp 0</span></p>
+  </div>
+
+  <div class="card">
+    <h3>Data Santri</h3>
+    <div id="dataSantri">Memuat data...</div>
+  </div>
+
+</div>
+
+<!-- PEMBAYARAN -->
+<div id="tab-bayar" class="tab">
+  <div class="card">
+    <h3>Pembayaran</h3>
+    <div class="btn-group">
+      <button onclick="bayarTransfer()">Transfer</button>
+      <button onclick="bayarOffline()">Offline</button>
+    </div>
+    <div id="infoPembayaran" class="info-box"></div>
+  </div>
+
+  <div class="card">
+    <h3>Riwayat</h3>
+    <div id="riwayatPembayaran">Memuat...</div>
+  </div>
+</div>
+
+<!-- ABSENSI -->
+<div id="tab-absen" class="tab">
+  <div class="card">
+    <h3>Absensi</h3>
+    <div id="riwayatAbsensi">Memuat...</div>
+  </div>
+</div>
+
+<!-- INFO -->
+<div id="tab-info" class="tab">
+  <div class="card">
+    <h3>Pengumuman</h3>
+    <div id="listPengumuman">Memuat...</div>
+  </div>
+</div>
+
+</div>
+
+</div>
+
+<script type="module" src="js/portalWali.js"></script>
+
+</body>
+</html>
