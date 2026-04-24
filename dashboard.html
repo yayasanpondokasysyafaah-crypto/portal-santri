@@ -44,11 +44,6 @@
 <p id="totalSantri">0</p>
 </div>
 
-<div class="card" onclick="LihatAbsensi()">
-<div class="icon">📋</div>
-<h3>Absensi</h3>
-<p id="absensi">0</p>
-</div>
 
 <div class="card" onclick="LihatSudahBayar()"> 
 <div class="icon">💰</div>
@@ -99,45 +94,12 @@
 <input id="nomorwali" placeholder="Nomor Wali">
 <input id="alamat" placeholder="Alamat">
 <br><br>
-<button onclick="tambahSantri()">Tambah Santri</button>
+<button id="btnSantri" onclick="tambahSantri()">Tambah Santri</button>
+<div id="toast"></div>
 
 
 
-<h2>Absensi Santri</h2>
 
-<label>Filter Kelas</label>
-<select id="filterKelas" onchange="loadAbsensi()">
-<option value="">Semua Kelas</option>
-<option value="1">Kelas 1</option>
-<option value="2">Kelas 2</option>
-<option value="3">Kelas 3</option>
-<option value="4">Kelas 4</option>
-<option value="5">Kelas 5</option>
-<option value="6">Kelas 6</option>
-</select>
-
-<label>Tanggal</label>
-<input type="date" id="tanggalAbsensi">
-
-<br><br>
-
-<label>Kegiatan</label>
-<select id="kegiatanAbsensi">
-
-<option value="Diniyah">Diniyah</option>
-<option value="Ngaji Siang">Ngaji Siang</option>
-<option value="Ngaji Sore">Ngaji Sore</option>
-<option value="Madrasah">Madrasah</option>
-
-</select>
-
-<br><br>
-
-<div id="listAbsensi"></div>
-
-<br>
-
-<button onclick="simpanSemuaAbsensi()">Simpan Semua Absensi</button>
 
 <h2>Pembayaran Santri</h2>
 
@@ -249,12 +211,6 @@ Kirim Pengumuman
 </div>
 </div>
 
-<h2>Grafik Kehadiran</h2>
-
-<canvas id="grafikAbsensi"></canvas>
-
-
-</div>
 
 
 
