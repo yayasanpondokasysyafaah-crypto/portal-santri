@@ -61,7 +61,25 @@ nomorwali:nomorwali,
 alamat:alamat
 })
 
-alert("Santri berhasil ditambahkan")
+ setLoading("btnSantri", true, "Menyimpan...");
+
+  try {
+    const nama = document.getElementById("nama").value;
+    const nis = document.getElementById("nis").value;
+
+    await addDoc(collection(db,"santri"),{
+      nama:nama,
+      nis:nis
+    });
+
+    showToast("Santri berhasil ditambahkan ✅");
+
+  } catch (err) {
+    showToast("Gagal: " + err.message, false);
+  }
+
+  setLoading("btnSantri", false);
+
 
 loadSantri()
 loadSantriDropdown()
@@ -86,16 +104,30 @@ querySnapshot.forEach((docSnap)=>{
 const data = docSnap.data()
 
 if(
-data.nama.toLowerCase().includes(search) ||
-data.nis.includes(search)
+(data.nama || "").toLowerCase().includes(search) ||
+(data.nis || "").includes(search)
 ){
 
 dataDiv.innerHTML += `
 <tr>
 <td>${data.nama}</td>
 <td>${data.nis}</td>
+<td>${data.kelas}</td>
+<td>${data.wali}</td>
+<td>${data.nomorwali}</td>
+<td>${data.alamat}</td>
 <td>
-<button onclick="editSantri('${docSnap.id}','${data.nama}','${data.nis}')">Edit</button>
+
+<button onclick="editSantri(
+'${docSnap.id}',
+\`${data.nama}\`,
+\`${data.nis}\`,
+\`${data.kelas}\`,
+\`${data.wali}\`,
+\`${data.nomorwali}\`,
+\`${data.alamat}\`
+)">Edit</button>
+
 <button onclick="hapusSantri('${docSnap.id}')">Hapus</button>
 </td>
 </tr>
@@ -108,34 +140,57 @@ dataDiv.innerHTML += `
 }
 
 
-
 // HAPUS SANTRI
+window.hapusSantri = async function(id) {
+
+  const konfirmasi = confirm("Yakin mau hapus santri ini?");
+  if (!konfirmasi) return;
+
+  await deleteDoc(doc(db, "santri", id));
+
+  alert("Santri berhasil dihapus");
+
+  loadSantri(); // refresh tabel
+}
+
 let editId = ""
 
-window.editSantri = function(id,nama,nis){
+window.editSantri = function(id,nama,nis,kelas,wali,nomorwali,alamat){
 
-editId = id
+  editId = id
 
-document.getElementById("editNama").value = nama
-document.getElementById("editNis").value = nis
+  document.getElementById("editNama").value = nama
+  document.getElementById("editNis").value = nis
+  document.getElementById("editKelas").value = kelas
+  document.getElementById("editWali").value = wali
+  document.getElementById("editNomorWali").value = nomorwali
+  document.getElementById("editAlamat").value = alamat
 
-document.getElementById("editModal").style.display = "flex"
-
+  document.getElementById("editModal").style.display = "flex"
 }
 
 window.updateSantri = async function(){
 
 const nama = document.getElementById("editNama").value
 const nis = document.getElementById("editNis").value
+const kelas = document.getElementById("editKelas").value
+const wali = document.getElementById("editWali").value
+const nomorwali = document.getElementById("editNomorWali").value
+const alamat = document.getElementById("editAlamat").value
 
-if(!nama || !nis){
+
+if(!nama || !nis || !kelas || !wali || !nomorwali || !alamat){
 alert("Isi semua data!")
 return
 }
 
 await updateDoc(doc(db,"santri",editId),{
 nama:nama,
-nis:nis
+nis:nis,
+kelas:kelas,
+wali:wali,
+nomorwali:nomorwali,
+alamat:alamat
 })
 
 alert("Data berhasil diupdate")
@@ -152,23 +207,7 @@ document.getElementById("editModal").style.display = "none"
 
 
 
-const absensiCollection = collection(db,"absensi")
 
-
-window.inputAbsensi = async function(){
-
-const santriId = document.getElementById("santriSelect").value
-const status = document.getElementById("statusAbsensi").value
-
-await addDoc(absensiCollection,{
-santriId:santriId,
-tanggal:new Date().toISOString().split("T")[0],
-status:status
-})
-
-alert("Absensi berhasil disimpan")
-
-}
 
 async function loadSantriDropdown(){
 
@@ -198,11 +237,11 @@ ${data.nama} - ${data.nis}
 async function loadStatistik(){
 
 const santriSnapshot = await getDocs(collection(db,"santri"))
-const absensiSnapshot = await getDocs(collection(db,"absensi"))
+
 const pembayaranSnapshot = await getDocs(collection(db,"pembayaran"))
 
 let totalSantri = santriSnapshot.size
-let totalAbsensi = absensiSnapshot.size
+
 let totalPembayaran = pembayaranSnapshot.size
 let totalUang = 0
 
@@ -219,46 +258,12 @@ totalUang += total
 })
 
 document.getElementById("totalSantri").innerText = totalSantri
-document.getElementById("absensi").innerText = totalAbsensi
+
 document.getElementById("totalPembayaran").innerText = totalPembayaran
 document.getElementById("totalUang").innerText = totalUang
 }
 
-async function loadGrafik(){
 
-let hadir = 0
-let izin = 0
-let sakit = 0
-let alfa = 0
-let tanpaKeterangan = 0
-const querySnapshot = await getDocs(absensiCollection)
-
-querySnapshot.forEach((docSnap)=>{
-
-const data = docSnap.data()
-
-if(data.status === "Hadir") hadir++
-if(data.status === "Izin") izin++
-if(data.status === "Sakit") sakit++
-if(data.status === "Alfa") alfa++
-if(data.status === "Tanpa Keterangan") tanpaKeterangan++
-
-})
-
-const ctx = document.getElementById("grafikAbsensi")
-
-new Chart(ctx,{
-type:"bar",
-data:{
-labels:["Hadir","Izin","Sakit","Alfa","Tanpa Keterangan"],
-datasets:[{
-label:"Jumlah Absensi",
-data:[hadir,izin,sakit,alfa,tanpaKeterangan]
-}]
-}
-})
-
-}
 
 //pembayaran
 
@@ -340,69 +345,6 @@ window.location = "index.html"
 
 }
 
-window.loadAbsensi = async function(){
-
-const list = document.getElementById("listAbsensi")
-const filter = document.getElementById("filterKelas").value
-
-list.innerHTML = ""
-
-const querySnapshot = await getDocs(santriCollection)
-
-querySnapshot.forEach((docSnap)=>{
-
-const data = docSnap.data()
-
-// FILTER KELAS
-if(filter && data.kelas != filter){
-return
-}
-
-list.innerHTML += `
-<div>
-${data.nama} (Kelas ${data.kelas})
-<select>
-<option value="Hadir">Hadir</option>
-<option value="Izin">Izin</option>
-<option value="Sakit">Sakit</option>
-<option value="Alpha">Alpha</option>
-</select>
-</div>
-`
-
-})
-
-}
-
-window.simpanSemuaAbsensi = async function(){
-
-const tanggal = document.getElementById("tanggalAbsensi").value
-const kegiatan = document.getElementById("kegiatanAbsensi").value
-
-const semuaStatus = document.querySelectorAll(".statusSantri")
-
-for(const item of semuaStatus){
-
-const santriId = item.dataset.id
-const status = item.value
-
-await addDoc(collection(db,"absensi"),{
-
-santriId : santriId,
-tanggal : tanggal,
-kegiatan : kegiatan,
-status : status
-
-})
-
-}
-
-alert("Absensi berhasil disimpan")
-
-}
-
-document.getElementById("tanggalAbsensi").valueAsDate = new Date()
-
 window.simpanPengumuman = async function(){
 
 const judul = document.getElementById("judulPengumuman").value
@@ -422,6 +364,11 @@ alert("Pengumuman berhasil dikirim")
 
 }
 
+
+
+
+
+
 function tampilkanPopup(judul, isi){
 document.getElementById("judulPopup").innerText = judul
 document.getElementById("isiPopup").innerHTML = isi
@@ -432,21 +379,7 @@ window.tutupPopup = function(){
 document.getElementById("popupSantri").style.display = "none"
 }
 
-window.LihatAbsensi = async function(){
 
-const snapshot = await getDocs(collection(db,"absensi"))
-
-let html = ""
-
-snapshot.forEach(doc=>{
-const data = doc.data()
-
-html += `<div>${data.nama}</div>`
-})
-
-tampilkanPopup("Santri Yang Sudah Absen", html)
-
-}
 
 window.LihatSudahBayar = async function(){
 
@@ -491,18 +424,15 @@ window.downloadExcel = async function(){
 
 const santriSnap = await getDocs(collection(db,"santri"))
 const bayarSnap = await getDocs(collection(db,"pembayaran"))
-const absenSnap = await getDocs(collection(db,"absensi"))
+
 
 let sudahBayar = []
-let sudahAbsen = []
+
 
 bayarSnap.forEach(doc=>{
 sudahBayar.push(doc.data().nama)
 })
 
-absenSnap.forEach(doc=>{
-sudahAbsen.push(doc.data().nama)
-})
 
 let data = []
 
@@ -513,7 +443,7 @@ data.push({
 Nama: s.nama,
 NIS: s.nis,
 Pembayaran: sudahBayar.includes(s.nama) ? "Sudah Bayar" : "Belum Bayar",
-Absensi: sudahAbsen.includes(s.nama) ? "Sudah Absen" : "Belum Absen"
+
 })
 
 })
@@ -531,12 +461,12 @@ window.backupDatabase = async function(){
 
 const santriSnap = await getDocs(collection(db,"santri"))
 const bayarSnap = await getDocs(collection(db,"pembayaran"))
-const absenSnap = await getDocs(collection(db,"absensi"))
+
 
 let backup = {
 santri: [],
 pembayaran: [],
-absensi: []
+
 }
 
 santriSnap.forEach(doc=>{
@@ -547,9 +477,7 @@ bayarSnap.forEach(doc=>{
 backup.pembayaran.push(doc.data())
 })
 
-absenSnap.forEach(doc=>{
-backup.absensi.push(doc.data())
-})
+
 
 const dataStr = JSON.stringify(backup, null, 2)
 
@@ -566,11 +494,91 @@ URL.revokeObjectURL(url)
 
 }
 
+// ================= PENGUMUMAN =================
+
+// LOAD
+window.loadPengumuman = async function () {
+  const list = document.getElementById("listPengumuman");
+  if (!list) return;
+
+  list.innerHTML = "";
+
+  const snapshot = await getDocs(collection(db, "pengumuman"));
+
+  snapshot.forEach((docSnap) => {
+    const data = docSnap.data();
+
+    list.innerHTML += `
+      <div style="border:1px solid #ccc; padding:10px; margin:10px 0;">
+        <b>${data.judul}</b>
+        <p>${data.isi}</p>
+        <small>${data.tanggal}</small><br>
+
+        <button onclick="editPengumuman('${docSnap.id}', \`${data.judul}\`, \`${data.isi}\`)">Edit</button>
+        <button onclick="hapusPengumuman('${docSnap.id}')">Hapus</button>
+      </div>
+    `;
+  });
+};
+
+
+// HAPUS
+window.hapusPengumuman = async function (id) {
+  if (!confirm("Yakin hapus?")) return;
+
+  await deleteDoc(doc(db, "pengumuman", id));
+  loadPengumuman();
+};
+
+
+// EDIT
+window.editPengumuman = async function (id, judulLama, isiLama) {
+  const judulBaru = prompt("Edit judul:", judulLama);
+  const isiBaru = prompt("Edit isi:", isiLama);
+
+  if (!judulBaru || !isiBaru) return;
+
+  await updateDoc(doc(db, "pengumuman", id), {
+    judul: judulBaru,
+    isi: isiBaru
+  });
+
+  loadPengumuman();
+};
+
+function setLoading(buttonId, isLoading, text = "Loading...") {
+  const btn = document.getElementById(buttonId);
+
+  if (isLoading) {
+    btn.disabled = true;
+    btn.dataset.text = btn.innerHTML;
+
+    btn.innerHTML = `<span class="spinner-btn"></span> ${text}`;
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = btn.dataset.text;
+  }
+}
+
+function showToast(message, success = true) {
+  const toast = document.getElementById("toast");
+
+  toast.innerText = message;
+  toast.style.background = success ? "#22c55e" : "#ef4444";
+
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
 window.onload = function(){
 
 loadSantri()
 loadStatistik()
-loadGrafik()
+
 loadSantriPembayaran()
-loadAbsensi()
+loadPengumuman()
 }
+

@@ -44,11 +44,6 @@
 <p id="totalSantri">0</p>
 </div>
 
-<div class="card" onclick="LihatAbsensi()">
-<div class="icon">📋</div>
-<h3>Absensi</h3>
-<p id="absensi">0</p>
-</div>
 
 <div class="card" onclick="LihatSudahBayar()"> 
 <div class="icon">💰</div>
@@ -99,45 +94,12 @@
 <input id="nomorwali" placeholder="Nomor Wali">
 <input id="alamat" placeholder="Alamat">
 <br><br>
-<button onclick="tambahSantri()">Tambah Santri</button>
+<button id="btnSantri" onclick="tambahSantri()">Tambah Santri</button>
+<div id="toast"></div>
 
 
 
-<h2>Absensi Santri</h2>
 
-<label>Filter Kelas</label>
-<select id="filterKelas" onchange="loadAbsensi()">
-<option value="">Semua Kelas</option>
-<option value="1">Kelas 1</option>
-<option value="2">Kelas 2</option>
-<option value="3">Kelas 3</option>
-<option value="4">Kelas 4</option>
-<option value="5">Kelas 5</option>
-<option value="6">Kelas 6</option>
-</select>
-
-<label>Tanggal</label>
-<input type="date" id="tanggalAbsensi">
-
-<br><br>
-
-<label>Kegiatan</label>
-<select id="kegiatanAbsensi">
-
-<option value="Diniyah">Diniyah</option>
-<option value="Ngaji Siang">Ngaji Siang</option>
-<option value="Ngaji Sore">Ngaji Sore</option>
-<option value="Madrasah">Madrasah</option>
-
-</select>
-
-<br><br>
-
-<div id="listAbsensi"></div>
-
-<br>
-
-<button onclick="simpanSemuaAbsensi()">Simpan Semua Absensi</button>
 
 <h2>Pembayaran Santri</h2>
 
@@ -194,35 +156,34 @@ Madin (30.000)
 
 <br><br>
 
+
 <button onclick="simpanPengumuman()">
 Kirim Pengumuman
 </button>
 
 
+<h2>Daftar Pengumuman</h2>
+<div id="listPengumuman"></div>
+
 <h2>Data Santri</h2>
 
-<br><br>
-
-<input id="searchSantri" placeholder="Cari nama atau NIS" oninput="loadSantri()">
+<input type="text" id="searchSantri" placeholder="Cari santri..." oninput="loadSantri()">
 
 <br><br>
 
-<table>
-
-<thead>
-
-<tr>
-<th>Nama</th>
-<th>NIS</th>
-<th>Aksi</th>
-</tr>
-
-</thead>
-
-<tbody id="dataSantri">
-
-</tbody>
-
+<table border="1" width="100%" cellpadding="8">
+  <thead>
+    <tr>
+      <th>Nama</th>
+      <th>NIS</th>
+      <th>Kelas</th>
+      <th>Nama Wali</th>
+      <th>Nomor Wali</th>
+      <th>Alamat</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody id="dataSantri"></tbody>
 </table>
 
 
@@ -233,46 +194,23 @@ Kirim Pengumuman
   <h3>Edit Santri</h3>
 
 <input type="text" id="editNama" placeholder="Nama">
+<input type="text" id="editKelas" placeholder="Kelas">
 <input type="text" id="editNis" placeholder="NIS">
+<input type="text" id="editWali" placeholder="Nama Wali">
+<input type="text" id="editNomorWali" placeholder="Nomor Wali">
+<input type="text" id="editAlamat" placeholder="Alamat">
+
 
 <br><br>
 
 <button onclick="updateSantri()">Simpan</button>
 <button onclick="tutupEdit()">Batal</button>
 
-</div>
-</div>
-
-<h2>Grafik Kehadiran</h2>
-
-<canvas id="grafikAbsensi"></canvas>
 
 
 </div>
+</div>
 
-<nav class="bottom-nav">
-
-<button onclick="window.location.href='dashboard.html'">
-🏠
-<span>Dashboard</span>
-</button>
-
-<button onclick="window.location.href='santri.html'">
-👨‍🎓
-<span>Santri</span>
-</button>
-
-<button onclick="window.location.href='absensi.html'">
-📋
-<span>Absensi</span>
-</button>
-
-<button onclick="window.location.href='pembayaran.html'">
-💰
-<span>Bayar</span>
-</button>
-
-</nav>
 
 
 

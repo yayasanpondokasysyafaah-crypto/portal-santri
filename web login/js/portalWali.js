@@ -167,33 +167,47 @@ async function loadRiwayatPembayaran(){
 
 }
 
+// info pembayaran
+
+window.bayarTransfer = function(){
+  const div = document.getElementById("infoPembayaran");
+
+  div.innerHTML = `
+    <div class="box-info">
+      <h3>Pembayaran via Transfer</h3>
+      <p>Pembayaran dapat dilakukan melalui transfer ke rekening resmi pondok berikut:</p>
+
+      <p><b>Bank BRI</b><br>
+      No. Rek: 1234567890<br>
+      a.n. Pondok Asy Syafa'ah</p>
+
+      <p>Setelah transfer, kirim bukti pembayaran melalui WhatsApp.</p>
+
+      <a class="btn-wa" target="_blank"
+      href="https://wa.me/6283176687913?text=Assalamu'alaikum,%20saya%20ingin%20mengirim%20bukti%20pembayaran">
+      Kirim Bukti via WhatsApp
+      </a>
+    </div>
+  `;
+}
+
+window.bayarOffline = function(){
+  const div = document.getElementById("infoPembayaran");
+
+  div.innerHTML = `
+    <div class="box-info">
+      <h3>Pembayaran Offline</h3>
+      <p>Pembayaran dapat dilakukan langsung ke bendahara pondok.</p>
+
+      <p>Santri putra → bendahara putra<br>
+      Santri putri → bendahara putri</p>
+    </div>
+  `;
+}
+
 // ======================
 // ABSENSI
 // ======================
-async function loadAbsensi(){
-
-const div = document.getElementById("riwayatAbsensi")
-
-const q = query(
-collection(db,"absensi"),
-where("santriId","==",santriId)
-)
-
-const snap = await getDocs(q)
-
-div.innerHTML = ""
-
-snap.forEach(doc=>{
-const d = doc.data()
-
-div.innerHTML += `
-<div class="card">
-${d.tanggal} - ${d.kegiatan} - ${d.status}
-</div>
-`
-})
-
-}
 
 // ======================
 // PENGUMUMAN
@@ -254,6 +268,5 @@ window.onload = function(){
 loadData()
 loadTagihanBulanIni()
 loadRiwayatPembayaran()
-loadAbsensi()
 loadPengumuman()
 }
