@@ -32,6 +32,8 @@ window.tambahSantri = async function(){
 
   const nama = document.getElementById("nama").value
   const nis = document.getElementById("nis").value
+  const tempatlahir = document.getElementById("tempatlahir").value
+  const tanggallahir = document.getElementById("tanggallahir").value
   const password = document.getElementById("password").value
   const kelas = document.getElementById("kelas").value
   const wali = document.getElementById("wali").value
@@ -56,6 +58,8 @@ window.tambahSantri = async function(){
       nis,
       password,
       kelas,
+      tempatlahir,
+      tanggallahir,
       wali,
       nomorwali,
       alamat
@@ -66,6 +70,8 @@ window.tambahSantri = async function(){
     // 🔥 RESET FORM (biar gak ngetik ulang)
     document.getElementById("nama").value = ""
     document.getElementById("nis").value = ""
+    document.getElementById("tempatlahir").value = ""
+    document.getElementById("tanggallahir").value = ""
     document.getElementById("password").value = ""
     document.getElementById("kelas").value = ""
     document.getElementById("wali").value = ""
@@ -110,6 +116,8 @@ dataDiv.innerHTML += `
 <tr>
 <td>${data.nama}</td>
 <td>${data.nis}</td>
+<td>${data.tempatlahir}</td>
+<td>${data.tanggallahir}</td>
 <td>${data.kelas}</td>
 <td>${data.wali}</td>
 <td>${data.nomorwali}</td>
@@ -120,6 +128,8 @@ dataDiv.innerHTML += `
 '${docSnap.id}',
 \`${data.nama}\`,
 \`${data.nis}\`,
+\`${data.tempatlahir}\`,
+\`${data.tanggallahir}\`,
 \`${data.kelas}\`,
 \`${data.wali}\`,
 \`${data.nomorwali}\`,
@@ -153,12 +163,14 @@ window.hapusSantri = async function(id) {
 
 let editId = ""
 
-window.editSantri = function(id,nama,nis,kelas,wali,nomorwali,alamat){
+window.editSantri = function(id,nama,nis,tempatlahir,tanggallahir,kelas,wali,nomorwali,alamat){
 
   editId = id
 
   document.getElementById("editNama").value = nama
   document.getElementById("editNis").value = nis
+  document.getElementById("editTempatLahir").value = tempatlahir
+  document.getElementById("editTanggalLahir").value = tanggallahir
   document.getElementById("editKelas").value = kelas
   document.getElementById("editWali").value = wali
   document.getElementById("editNomorWali").value = nomorwali
@@ -171,13 +183,15 @@ window.updateSantri = async function(){
 
 const nama = document.getElementById("editNama").value
 const nis = document.getElementById("editNis").value
+const tempatlahir = document.getElementById("editTempatLahir").value
+const tanggallahir = document.getElementById("editTanggalLahir").value
 const kelas = document.getElementById("editKelas").value
 const wali = document.getElementById("editWali").value
 const nomorwali = document.getElementById("editNomorWali").value
 const alamat = document.getElementById("editAlamat").value
 
 
-if(!nama || !nis || !kelas || !wali || !nomorwali || !alamat){
+if(!nama || !nis || !tempatlahir || !tanggallahir || !kelas || !wali || !nomorwali || !alamat){
 alert("Isi semua data!")
 return
 }
@@ -185,6 +199,8 @@ return
 await updateDoc(doc(db,"santri",editId),{
 nama:nama,
 nis:nis,
+tempatlahir:tempatlahir,
+tanggallahir:tanggallahir,
 kelas:kelas,
 wali:wali,
 nomorwali:nomorwali,
@@ -443,11 +459,13 @@ santriSnap.forEach(doc=>{
 const s = doc.data()
 
 data.push({
-  NIS: s.nis,
-Nama: s.nama,
-NamaWali: s.wali,
-NomorWali: s.nomorwali,
-Alamat: s.alamat,
+NIS: s.nis,
+NAMA: s.nama,
+TEMPAT_LAHIR: s.tempatlahir,
+TANGGAL_LAHIR: s.tanggallahir,
+NAMA_WALI: s.wali,
+NOMOR_WALI: s.nomorwali,
+ALAMAT: s.alamat,
 })
 
 })
