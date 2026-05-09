@@ -109,16 +109,25 @@
 <input type="month" id="bulanPembayaran">
 <br><br>
 
-<label>
-<input type="checkbox" id="syahriyahCheck">
-Syahriyah (30.000)
-</label>
-<br>
+<div class="checkbox-group">
 
-<label>
-<input type="checkbox" id="madinCheck">
-Madin (30.000)
-</label>
+  <label class="checkbox-item">
+    <span>Syahriyah (30.000)</span>
+    <input type="checkbox" id="syahriyahCheck">
+    
+  </label>
+
+  <label class="checkbox-item">
+    <span>Madin (30.000)</span>
+    <input type="checkbox" id="madinCheck">
+  </label>
+
+    <label class="checkbox-item">
+      <span>Perpustakaan (50.000)</span>
+    <input type="checkbox" id="perpusCheck">
+  </label>
+
+</div>
 <br><br>
 
 <label>Kos Makan</label>
@@ -145,6 +154,7 @@ Madin (30.000)
 <p id="totalBayar">Rp 0</p>
 
 <button onclick="simpanPembayaran()">Simpan Pembayaran</button>
+<br><br>
 
 <h2>Buat Pengumuman</h2>
 

@@ -546,3 +546,17 @@ button:disabled{
   opacity:1;
   transform:translateY(0);
 }
+
+.checkbox-item{
+  display: flex;
+  justify-content: space-between; /* 👉 dorong checkbox ke kanan */
+  align-items: center;
+  width: 100%;
+  max-width: auto; /* opsional biar gak kepanjangan */
+  margin-bottom: 8px;
+}
+
+.checkbox-item{
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+}

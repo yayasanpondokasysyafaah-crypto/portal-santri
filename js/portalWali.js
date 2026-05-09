@@ -177,9 +177,9 @@ window.bayarTransfer = function(){
       <h3>Pembayaran via Transfer</h3>
       <p>Pembayaran dapat dilakukan melalui transfer ke rekening resmi pondok berikut:</p>
 
-      <p><b>Bank BRI</b><br>
-      No. Rek: 1234567890<br>
-      a.n. Pondok Asy Syafa'ah</p>
+      <p><b>Bank BNI</b><br>
+      No. Rek: 0902772031<br>
+      a.n. Bpk. JOKO SANTOSO (Dipegang oleh Pengurus Pondok Pesantren Asy Syafa'ah)</p>
 
       <p>Setelah transfer, kirim bukti pembayaran melalui WhatsApp.</p>
 

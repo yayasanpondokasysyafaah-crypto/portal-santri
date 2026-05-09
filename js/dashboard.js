@@ -30,60 +30,58 @@ const pembayaranCollection = collection(db,"pembayaran")
 // TAMBAH SANTRI
 window.tambahSantri = async function(){
 
-const nama = document.getElementById("nama").value
-const nis = document.getElementById("nis").value
-const password = document.getElementById("password").value
-const kelas = document.getElementById("kelas").value
-const wali = document.getElementById("wali").value
-const nomorwali = document.getElementById("nomorwali").value
-const alamat = document.getElementById("alamat").value
+  const nama = document.getElementById("nama").value
+  const nis = document.getElementById("nis").value
+  const password = document.getElementById("password").value
+  const kelas = document.getElementById("kelas").value
+  const wali = document.getElementById("wali").value
+  const nomorwali = document.getElementById("nomorwali").value
+  const alamat = document.getElementById("alamat").value
 
+  // cek NIS
+  const q = query(collection(db,"santri"), where("nis","==",nis))
+  const cek = await getDocs(q)
 
-// cek NIS
-const q = query(collection(db,"santri"), where("nis","==",nis))
-const cek = await getDocs(q)
-
-if(!cek.empty){
-
-alert("NIS sudah terdaftar")
-return
-
-}
-
-
-await addDoc(santriCollection,{
-nama:nama,
-nis:nis,
-password:password,
-kelas:kelas,
-wali:wali,
-nomorwali:nomorwali,
-alamat:alamat
-})
-
- setLoading("btnSantri", true, "Menyimpan...");
-
-  try {
-    const nama = document.getElementById("nama").value;
-    const nis = document.getElementById("nis").value;
-
-    await addDoc(collection(db,"santri"),{
-      nama:nama,
-      nis:nis
-    });
-
-    showToast("Santri berhasil ditambahkan ✅");
-
-  } catch (err) {
-    showToast("Gagal: " + err.message, false);
+  if(!cek.empty){
+    alert("NIS sudah terdaftar")
+    return
   }
 
-  setLoading("btnSantri", false);
+  setLoading("btnSantri", true, "Menyimpan...");
 
+  try {
 
-loadSantri()
-loadSantriDropdown()
+    await addDoc(santriCollection,{
+      nama,
+      nis,
+      password,
+      kelas,
+      wali,
+      nomorwali,
+      alamat
+    })
 
+    showToast("Santri berhasil ditambahkan ✅")
+
+    // 🔥 RESET FORM (biar gak ngetik ulang)
+    document.getElementById("nama").value = ""
+    document.getElementById("nis").value = ""
+    document.getElementById("password").value = ""
+    document.getElementById("kelas").value = ""
+    document.getElementById("wali").value = ""
+    document.getElementById("nomorwali").value = ""
+    document.getElementById("alamat").value = ""
+
+    document.getElementById("nama").focus()
+
+  } catch (err) {
+    showToast("Gagal: " + err.message, false)
+  }
+
+  setLoading("btnSantri", false)
+
+  loadSantri()
+  loadSantriDropdown()
 }
 
 
@@ -251,6 +249,7 @@ const data = doc.data()
 const total =
 (data.syahriyah || 0) +
 (data.madin || 0) +
+(data.perpustakaan || 0) +
 (data.kosMakan || 0) +
 (data.urunan || 0)
 
@@ -294,10 +293,11 @@ function hitungTotal(){
 
 const syahriyah = document.getElementById("syahriyahCheck").checked ? 30000 : 0
 const madin = document.getElementById("madinCheck").checked ? 30000 : 0
+const perpus = document.getElementById("perpusCheck").checked ? 50000 : 0
 const kosMakan = parseInt(document.getElementById("kosMakan").value) || 0
 const urunan = parseInt(document.getElementById("urunan").value) || 0
 
-const total = syahriyah + madin + kosMakan + urunan
+const total = syahriyah + madin + perpus + kosMakan + urunan
 
 document.getElementById("totalBayar").innerText =
 "Rp " + total.toLocaleString("id-ID")
@@ -306,6 +306,7 @@ document.getElementById("totalBayar").innerText =
 
 document.getElementById("syahriyahCheck").addEventListener("change", hitungTotal)
 document.getElementById("madinCheck").addEventListener("change", hitungTotal)
+document.getElementById("perpusCheck").addEventListener("change", hitungTotal)
 document.getElementById("kosMakan").addEventListener("change", hitungTotal)
 document.getElementById("urunan").addEventListener("input", hitungTotal)
 
@@ -318,6 +319,7 @@ const status = document.getElementById("statusPembayaran").value
 
 const syahriyah = document.getElementById("syahriyahCheck").checked ? 30000 : 0
 const madin = document.getElementById("madinCheck").checked ? 30000 : 0
+const perpus = document.getElementById("perpusCheck").checked ? 50000 : 0
 const urunan = Number(document.getElementById("urunan").value) || 0
 
 let kosMakan = parseInt(document.getElementById("kosMakan").value) || 0
@@ -327,6 +329,7 @@ santriId: santriId,
 bulan: bulan,
 syahriyah: syahriyah,
 madin: madin,
+perpustakaan: perpus,
 kosMakan: kosMakan,
 urunan: urunan,
 status: status
@@ -440,10 +443,11 @@ santriSnap.forEach(doc=>{
 const s = doc.data()
 
 data.push({
+  NIS: s.nis,
 Nama: s.nama,
-NIS: s.nis,
-Pembayaran: sudahBayar.includes(s.nama) ? "Sudah Bayar" : "Belum Bayar",
-
+NamaWali: s.wali,
+NomorWali: s.nomorwali,
+Alamat: s.alamat,
 })
 
 })
